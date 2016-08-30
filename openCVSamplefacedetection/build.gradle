@@ -8,23 +8,22 @@ android {
         applicationId "org.opencv.samples.facedetect"
         minSdkVersion 9
         targetSdkVersion 24
+
+        // uncomment splits to decrease app size - google recommends to split only if the app is > 100mb
+//        splits {
+//            abi {
+//                enable true
+//                reset()
+//                include 'x86', 'x86_64', 'armeabi', 'armeabi-v7a', 'arm64-v8a','mips','mips64'
+//            }
+//        }
         externalNativeBuild {
             cmake {
                 arguments '-DANDROID_PLATFORM=android-13', '-DANDROID_TOOLCHAIN=clang', '-DANDROID_STL=gnustl_static'
                 cppFlags "-frtti", "-fexceptions"
-                abiFilters 'x86', 'x86_64', 'armeabi', 'armeabi-v7a', 'arm64-v8a','mips','mips64'
-            }
-            ndk {
-                abiFilters 'x86', 'x86_64', 'armeabi', 'armeabi-v7a', 'arm64-v8a','mips','mips64'
             }
         }
     }
-//    sourceSets {
-//        main {
-//            // let gradle pack the shared library into apk
-//            jniLibs.srcDirs = ['../libs']
-//        }
-//    }
 
     buildTypes {
         release {

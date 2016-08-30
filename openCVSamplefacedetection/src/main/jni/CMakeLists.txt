@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.6)
 
 set(CMAKE_VERBOSE_MAKEFILE on)
-set(libs "${CMAKE_SOURCE_DIR}/../../../../libs")
+set(libs "${CMAKE_SOURCE_DIR}/../jniLibs")
 ###################### Dlib ######################
 #add_library(lib_dlib STATIC IMPORTED )
 #set_target_properties(lib_dlib PROPERTIES IMPORTED_LOCATION
@@ -82,14 +82,14 @@ set_target_properties(libopencv_videostab PROPERTIES
     IMPORTED_LOCATION "${libs}/${ANDROID_ABI}/libopencv_videostab.a")
 
 # this library is missing from some ABIs but if you need it, uncomment the lines
-# and add libopencv_ts to target_link_libraries
+# and add libopencv_ts to target_link_libraries below
 #add_library(libopencv_ts STATIC IMPORTED )
 #set_target_properties(libopencv_ts PROPERTIES
 #    IMPORTED_LOCATION "${libs}/${ANDROID_ABI}/libopencv_ts.a")
 
 
-####################### this lib ######################
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11 -Wall -fexceptions -frtti")
+####################### - JNI - Detection Based Tracker ######################
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11 -fexceptions -frtti")
 file(GLOB detectionBasedTracker_SRC ./*.c*)
 add_library(detectionBasedTracker SHARED ${detectionBasedTracker_SRC})
 
