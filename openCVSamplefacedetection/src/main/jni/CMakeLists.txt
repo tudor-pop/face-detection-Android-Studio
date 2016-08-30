@@ -1,18 +1,100 @@
-cmake_minimum_required(VERSION 3.4.1)
+cmake_minimum_required(VERSION 3.6)
 
 set(CMAKE_VERBOSE_MAKEFILE on)
+set(libs "${CMAKE_SOURCE_DIR}/../../../../libs")
+###################### Dlib ######################
+#add_library(lib_dlib STATIC IMPORTED )
+#set_target_properties(lib_dlib PROPERTIES IMPORTED_LOCATION
+#    "${CMAKE_SOURCE_DIR}/libdlib.a")
 
-# build native_app_glue as a static lib
-include_directories(src/main/jni/native/jni)
-#add_library(app-glue STATIC
-#            ${ANDROID_NDK}/sources/android/native_app_glue/android_native_app_glue.c)
+#--------------------------------------------------- OpenCV ---------------------------------------------------#
+##-------------------------------------------------- include --------------------------------------------------#
+include_directories(include)
+include_directories(include/opencv)
+include_directories(include/opencv2)
+###------------------------------------------------- import ---------------------------------------------------#
+add_library(libopencv_java3 SHARED IMPORTED )
+set_target_properties(libopencv_java3 PROPERTIES
+    IMPORTED_LOCATION "${libs}/${ANDROID_ABI}/libopencv_java3.so")
 
-# now build app's shared lib
-#include_directories(./ndk_helper ${ANDROID_NDK}/sources/android/cpufeatures)
+add_library(libopencv_calib3d STATIC IMPORTED )
+set_target_properties(libopencv_calib3d PROPERTIES
+    IMPORTED_LOCATION "${libs}/${ANDROID_ABI}/libopencv_calib3d.a")
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11 -Wall -fno-exceptions -fno-rtti")
+add_library(libopencv_core STATIC IMPORTED )
+set_target_properties(libopencv_core PROPERTIES
+    IMPORTED_LOCATION "${libs}/${ANDROID_ABI}/libopencv_core.a")
+
+add_library(libopencv_features2d STATIC IMPORTED )
+set_target_properties(libopencv_features2d PROPERTIES
+    IMPORTED_LOCATION "${libs}/${ANDROID_ABI}/libopencv_features2d.a")
+
+add_library(libopencv_flann STATIC IMPORTED )
+set_target_properties(libopencv_flann PROPERTIES
+    IMPORTED_LOCATION "${libs}/${ANDROID_ABI}/libopencv_flann.a")
+
+add_library(libopencv_highgui STATIC IMPORTED )
+set_target_properties(libopencv_highgui PROPERTIES
+    IMPORTED_LOCATION "${libs}/${ANDROID_ABI}/libopencv_highgui.a")
+
+add_library(libopencv_imgcodecs STATIC IMPORTED )
+set_target_properties(libopencv_imgcodecs PROPERTIES
+    IMPORTED_LOCATION "${libs}/${ANDROID_ABI}/libopencv_imgcodecs.a")
+
+add_library(libopencv_imgproc STATIC IMPORTED )
+set_target_properties(libopencv_imgproc PROPERTIES
+    IMPORTED_LOCATION "${libs}/${ANDROID_ABI}/libopencv_imgproc.a")
+
+add_library(libopencv_ml STATIC IMPORTED )
+set_target_properties(libopencv_ml PROPERTIES
+    IMPORTED_LOCATION "${libs}/${ANDROID_ABI}/libopencv_ml.a")
+
+add_library(libopencv_objdetect STATIC IMPORTED )
+set_target_properties(libopencv_objdetect PROPERTIES
+    IMPORTED_LOCATION "${libs}/${ANDROID_ABI}/libopencv_objdetect.a")
+
+add_library(libopencv_photo STATIC IMPORTED )
+set_target_properties(libopencv_photo PROPERTIES
+    IMPORTED_LOCATION "${libs}/${ANDROID_ABI}/libopencv_photo.a")
+
+add_library(libopencv_shape STATIC IMPORTED )
+set_target_properties(libopencv_shape PROPERTIES
+    IMPORTED_LOCATION "${libs}/${ANDROID_ABI}/libopencv_shape.a")
+
+add_library(libopencv_stitching STATIC IMPORTED )
+set_target_properties(libopencv_stitching PROPERTIES
+    IMPORTED_LOCATION "${libs}/${ANDROID_ABI}/libopencv_stitching.a")
+
+add_library(libopencv_superres STATIC IMPORTED )
+set_target_properties(libopencv_superres PROPERTIES
+    IMPORTED_LOCATION "${libs}/${ANDROID_ABI}/libopencv_superres.a")
+
+add_library(libopencv_video STATIC IMPORTED )
+set_target_properties(libopencv_video PROPERTIES
+    IMPORTED_LOCATION "${libs}/${ANDROID_ABI}/libopencv_video.a")
+
+add_library(libopencv_videoio STATIC IMPORTED )
+set_target_properties(libopencv_videoio PROPERTIES
+    IMPORTED_LOCATION "${libs}/${ANDROID_ABI}/libopencv_videoio.a")
+
+add_library(libopencv_videostab STATIC IMPORTED )
+set_target_properties(libopencv_videostab PROPERTIES
+    IMPORTED_LOCATION "${libs}/${ANDROID_ABI}/libopencv_videostab.a")
+
+# this library is missing from some ABIs but if you need it, uncomment the lines
+# and add libopencv_ts to target_link_libraries
+#add_library(libopencv_ts STATIC IMPORTED )
+#set_target_properties(libopencv_ts PROPERTIES
+#    IMPORTED_LOCATION "${libs}/${ANDROID_ABI}/libopencv_ts.a")
+
+
+####################### this lib ######################
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11 -Wall -fexceptions -frtti")
 file(GLOB detectionBasedTracker_SRC ./*.c*)
-add_library(DetectionBasedTracker SHARED ${detectionBasedTracker_SRC})
+add_library(detectionBasedTracker SHARED ${detectionBasedTracker_SRC})
 
 # add lib dependencies
-target_link_libraries(DetectionBasedTracker android log)
+target_link_libraries(detectionBasedTracker android log
+    libopencv_java3 libopencv_calib3d libopencv_core libopencv_features2d libopencv_flann libopencv_highgui libopencv_imgcodecs
+    libopencv_imgproc libopencv_ml libopencv_objdetect libopencv_photo libopencv_shape libopencv_stitching libopencv_superres
+    libopencv_video libopencv_videoio libopencv_videostab )

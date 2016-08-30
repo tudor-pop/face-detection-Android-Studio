@@ -64,7 +64,7 @@ public class FdActivity extends AppCompatActivity implements CvCameraViewListene
                     Log.i(TAG, "OpenCV loaded successfully");
 
                     // Load native library after(!) OpenCV initialization
-                    System.loadLibrary("detection_based_tracker");
+                    System.loadLibrary("detectionBasedTracker");
 
                     try {
                         // load cascade file from application resources
