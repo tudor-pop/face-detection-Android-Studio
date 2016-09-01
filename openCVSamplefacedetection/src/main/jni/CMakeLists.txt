@@ -2,17 +2,10 @@ cmake_minimum_required(VERSION 3.6)
 
 set(CMAKE_VERBOSE_MAKEFILE on)
 set(libs "${CMAKE_SOURCE_DIR}/../jniLibs")
-###################### Dlib ######################
-#add_library(lib_dlib STATIC IMPORTED )
-#set_target_properties(lib_dlib PROPERTIES IMPORTED_LOCATION
-#    "${CMAKE_SOURCE_DIR}/libdlib.a")
 
-#--------------------------------------------------- OpenCV ---------------------------------------------------#
-##-------------------------------------------------- include --------------------------------------------------#
 include_directories(include)
-include_directories(include/opencv)
-include_directories(include/opencv2)
-###------------------------------------------------- import ---------------------------------------------------#
+
+#--------------------------------------------------- import ---------------------------------------------------#
 add_library(libopencv_java3 SHARED IMPORTED )
 set_target_properties(libopencv_java3 PROPERTIES
     IMPORTED_LOCATION "${libs}/${ANDROID_ABI}/libopencv_java3.so")
@@ -87,11 +80,9 @@ set_target_properties(libopencv_videostab PROPERTIES
 #set_target_properties(libopencv_ts PROPERTIES
 #    IMPORTED_LOCATION "${libs}/${ANDROID_ABI}/libopencv_ts.a")
 
-
-####################### - JNI - Detection Based Tracker ######################
+########################### Detection Based Tracker ###########################
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11 -fexceptions -frtti")
-file(GLOB detectionBasedTracker_SRC ./*.c*)
-add_library(detectionBasedTracker SHARED ${detectionBasedTracker_SRC})
+add_library(detectionBasedTracker SHARED DetectionBasedTracker_jni.cpp)
 
 # add lib dependencies
 target_link_libraries(detectionBasedTracker android log
