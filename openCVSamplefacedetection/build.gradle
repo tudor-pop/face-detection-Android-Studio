@@ -1,13 +1,12 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion "24.0.1"
+    compileSdkVersion 27
 
     defaultConfig {
         applicationId "org.opencv.samples.facedetect"
-        minSdkVersion 9
-        targetSdkVersion 24
+        minSdkVersion 14
+        targetSdkVersion 27
 
         // uncomment splits to decrease app size - google recommends to split only if the app is > 100mb
 //        splits {
@@ -42,6 +41,6 @@ android {
 }
 
 dependencies {
-    compile project(':openCVLibrary310')
-    compile 'com.android.support:appcompat-v7:24.2.0'
+    implementation project(':openCVLibrary310')
+    implementation 'com.android.support:appcompat-v7:27.1.1'
 }
